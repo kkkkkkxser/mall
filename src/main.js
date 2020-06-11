@@ -10,10 +10,12 @@ import { Image as VanImage } from 'vant';
 import { Overlay } from 'vant';
 import { Lazyload } from 'vant'
 import { Swipe, SwipeItem } from 'vant'
+import { Rate } from 'vant'
 import 'lib-flexible/flexible'
 
 
 Vue.config.productionTip = false
+
 // 使用引入的组件
 Vue.use(Button)
 Vue.use(Tabbar)
@@ -23,6 +25,7 @@ Vue.use(Overlay)
 Vue.use(Lazyload)
 Vue.use(Swipe);
 Vue.use(SwipeItem);
+Vue.use(Rate)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -7,6 +7,18 @@
 </van-overlay>
     <!-- 图片 -->
     <van-image class="image" :src="require('./../assets/logo.png')" fit="contain"/>
+        <!-- 轮播图 -->
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item>
+        <van-image width height="170" :src="require('./../assets/slider/slider1.jpg')" />
+      </van-swipe-item>
+      <van-swipe-item>
+        <van-image width height="170" :src="require('./../assets/slider/slider2.jpg')" />
+      </van-swipe-item>
+      <van-swipe-item>
+        <van-image width height="170" :src="require('./../assets/slider/slider3.jpg')" />
+      </van-swipe-item>
+    </van-swipe>
     </div>
 </template>
 <script>

@@ -1,17 +1,5 @@
 <template>
   <div>
-    <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider1.jpg')" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider2.jpg')" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider3.jpg')" />
-      </van-swipe-item>
-    </van-swipe>
     <!-- 今日推荐介绍 -->
     <div class="text">
       <a>今日推荐</a>
@@ -25,6 +13,15 @@
           <p>{{item.name}}</p>
           <p>{{item.eName}}</p>
           <p>{{item.desc}}</p>
+          <van-rate
+  v-model="item.value"
+  :size="15"
+  color="green"
+  void-icon="star"
+  void-color="#eee"
+  style="padding-left:20px"
+  readonly
+/>
         </li>
       </ul>
     </div>
@@ -37,20 +34,22 @@ export default {
     return {
       recommandList: [
         {
-          image: "hand1.jpg",
-          name: "hand1",
-          eName: "hand1",
-          desc: "区别"
+          image: "hand2.jpg",
+          name: "孤儿",
+          eName: "orphan",
+          desc: "这是亚索",
+          value:3
         },
-        { image: "hand2.jpg", name: "hand1", eName: "hand1", desc: "区别" },
-        { image: "hand3.jpg", name: "hand1", eName: "hand1", desc: "区别" },
+        { image: "hand5.jpg", name: "佐伊", eName: "zuoyi", desc: "这是佐伊",value:4},
+        { image: "hand8.jpg", name: "鱼仔", eName: "fishman", desc: "这是鱼人",value:5},
         {
-          image: "hand4.jpg",
-          name: "hand1",
-          eName: "hand1",
-          desc: "区别"
+          image: "hand9.jpg",
+          name: "大头",
+          eName: "bighead",
+          desc: "这是德莱文",
+          value:3
         }
-      ]
+      ],
     };
   }
 };
@@ -68,7 +67,7 @@ export default {
   line-height: 15px;
 }
 .recommand p{
-  text-align: center;
+ padding-left:20px;
 }
 .recommand ul {
   display: flex;

@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Index from '@/components/Index'
+import About from '@/components/About'
+import Contact from '@/components/Contact'
+import Menu from '@/components/Menu'
 
 Vue.use(Router)
 
@@ -15,6 +18,15 @@ export default new Router({
         {
           path:'/index',
           component:Index
+        },{
+          path:'/about',
+          component:About
+        },{
+          path:'/contact',
+          component:Contact
+        },{
+          path:'/Menu',
+          component:Menu
         }
       ]
     }
