@@ -4,6 +4,7 @@
     <div class="text">
       <a>今日推荐</a>
     </div>
+    <!-- 今日推荐列表 -->
     <div class="recommand">
       <ul>
         <li v-for="item in recommandList" :key="item.id">
@@ -32,6 +33,7 @@
 export default {
   data() {
     return {
+      // 今日推荐数据
       recommandList: [
         {
           image: "hand2.jpg",

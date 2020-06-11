@@ -7,11 +7,13 @@
   <van-tabbar-item icon="orders-o" @click="toMenu">菜单</van-tabbar-item>
   <van-tabbar-item icon="phone-o" @click="toContact">联系我们</van-tabbar-item>
 </van-tabbar>
+<!-- 维权栏 -->
 <div class="right">
     <div class="two">
         <van-image  :src="require('./../assets/two.jpg')" />
     </div>
 </div>
+<!-- 底部 空白区域 -->
 <div style="height:50px;"></div>
     </div>
 </template>
@@ -39,6 +41,7 @@ export default {
 }
 </script>
 <style scoped>
+/* 底部维权栏 */
 .right{
     height:80px;
     background-color:#444444;

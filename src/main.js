@@ -11,8 +11,14 @@ import { Overlay } from 'vant';
 import { Lazyload } from 'vant'
 import { Swipe, SwipeItem } from 'vant'
 import { Rate } from 'vant'
+import { Tab, Tabs } from 'vant'
+// 自适应
 import 'lib-flexible/flexible'
-
+// 百度地图
+// import BaiduMap from 'vue-baidu-map'
+// Vue.use(BaiduMap, {
+//   ak: 'PICssFCsjwTVXrFfav5rM08QAlncGpad'
+// })
 
 Vue.config.productionTip = false
 
@@ -23,9 +29,11 @@ Vue.use(TabbarItem)
 Vue.use(VanImage)
 Vue.use(Overlay)
 Vue.use(Lazyload)
-Vue.use(Swipe);
-Vue.use(SwipeItem);
+Vue.use(Swipe)
+Vue.use(SwipeItem)
 Vue.use(Rate)
+Vue.use(Tab)
+Vue.use(Tabs)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

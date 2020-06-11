@@ -5,6 +5,7 @@ import Index from '@/components/Index'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
 import Menu from '@/components/Menu'
+import Product from '@/components/Product'
 
 Vue.use(Router)
 
@@ -25,10 +26,14 @@ export default new Router({
           path:'/contact',
           component:Contact
         },{
-          path:'/Menu',
+          path:'/menu',
           component:Menu
         }
       ]
+    },
+    {
+      path:'/product/:image',
+      component:Product
     }
   ]
 })
