@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // vant的组件
-import {Button} from'vant'
+import { Button as VanButton } from 'vant'
 import { Tabbar, TabbarItem } from 'vant';
 import { Image as VanImage } from 'vant';
 import { Overlay } from 'vant';
@@ -12,6 +12,8 @@ import { Lazyload } from 'vant'
 import { Swipe, SwipeItem } from 'vant'
 import { Rate } from 'vant'
 import { Tab, Tabs } from 'vant'
+// element ui组件
+import { Button, Select } from 'element-ui';
 // 自适应
 import 'lib-flexible/flexible'
 // 百度地图
@@ -22,8 +24,11 @@ import 'lib-flexible/flexible'
 
 Vue.config.productionTip = false
 
-// 使用引入的组件
-Vue.use(Button)
+// element ui的组件
+Vue.component(Button.name, Button);
+Vue.component(Select.name, Select);
+// 使用引入vant的组件
+Vue.component(VanButton.name, VanButton)
 Vue.use(Tabbar)
 Vue.use(TabbarItem)
 Vue.use(VanImage)
