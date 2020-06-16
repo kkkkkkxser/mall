@@ -2,13 +2,14 @@
     <div>
         <!-- 标签栏 -->
        <van-tabs>
-  <van-tab v-for="(tab,index) in tabList" :title="tab.title" :key="index">
+  <van-tab v-for="(menu,index) in menuList" :title="menu.title" :key="index">
       <!-- 商品栏 -->
     <div class="detail">
         <ul>
-            <li v-for="(detail,index) in tab.detailList" :key="index">
+            <li v-for="(detail,index) in menu.detailList" :key="index">
             <div class="img">
-            <van-image round fit="cover" :src="require(`./../assets/hand/${detail.image}`)" @click="toDetail(detail.image)" />  
+            <a>{{detail.name}}</a>
+            <!-- <van-image round fit="cover" :src="require(`./../assets/${detail.image}`)" @click="toDetail(detail.image)" />   -->
             </div>
             </li>
         </ul>
@@ -18,96 +19,38 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data(){
         return{
-            // 整个数据
-            tabList:[
-                {title:"奶茶",detailList:[{
-                    image:"hand1.jpg"
-                },{
-                    image:"hand2.jpg"
-                },{
-                    image:"hand3.jpg"
-                },{
-                    image:"hand4.jpg"
-                }]},
-                {title:"便当",detailList:[{
-                    image:"hand2.jpg"
-                },{
-                    image:"hand5.jpg"
-                },{
-                    image:"hand8.jpg"
-                },{
-                    image:"hand7.jpg"
-                },{
-                    image:"hand4.jpg"
-                }]},
-                {title:"甜点",detailList:[{
-                    image:"hand1.jpg"
-                },{
-                    image:"hand3.jpg"
-                },{
-                    image:"hand5.jpg"
-                },{
-                    image:"hand7.jpg"
-                },{
-                    image:"hand9.jpg"
-                },{
-                    image:"hand6.jpg"
-                }]},
-                {title:"零食",detailList:[{
-                    image:"hand2.jpg"
-                },{
-                    image:"hand3.jpg"
-                },{
-                    image:"hand5.jpg"
-                },{
-                    image:"hand6.jpg"
-                },{
-                    image:"hand7.jpg"
-                },{
-                    image:"hand9.jpg"
-                },{
-                    image:"hand1.jpg"
-                }]},
-                {title:"日货",detailList:[{
-                    image:"hand1.jpg"
-                },{
-                    image:"hand2.jpg"
-                },{
-                    image:"hand5.jpg"
-                },{
-                    image:"hand6.jpg"
-                },{
-                    image:"hand7.jpg"
-                },{
-                    image:"hand8.jpg"
-                },{
-                    image:"hand9.jpg"
-                }]},
-                {title:"网站制作",detailList:[{
-                    image:"hand1.jpg"
-                },{
-                    image:"hand2.jpg"
-                },{
-                    image:"hand3.jpg"
-                },{
-                    image:"hand5.jpg"
-                },{
-                    image:"hand6.jpg"
-                },{
-                    image:"hand7.jpg"
-                },{
-                    image:"hand9.jpg"
-                }]}
-            ]
+            // 菜单列表
+            menuList:[],
         }
     },
+      created(){
+    // 获取菜单
+    this.getMenu()
+  },
     methods:{
         toDetail(image){
             this.$router.push('/product'+image)
-        }
+        },
+        // 获取菜单
+     getMenu(){
+       axios.get("/mall/menuList").then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.menuList=res.result;
+                this.$message({
+                    duration:1000,
+                    message:"获取成功",
+                    type:'success'
+                })
+          }else{
+            this.$message.error("获取失败");
+          }
+       })
+     }
     }
 }
 </script>

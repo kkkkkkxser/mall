@@ -9,6 +9,8 @@ import Menu from '@/components/Menu'
 import Product from '@/components/Product'
 // 后台管理
 import BackLogin from '@/components/BackLogin'
+import Back from '@/components/Back'
+import BackUpload from '@/components/BackUpload'
 
 Vue.use(Router)
 
@@ -17,7 +19,7 @@ export default new Router({
     {
       path: '/',
       component: Home,
-      redirect:'/index',
+      // redirect:'/index',
       children:[
         {
           path:'/index',
@@ -41,6 +43,14 @@ export default new Router({
     {
       path:'/backlogin',
       component:BackLogin
+    },
+    {
+      path:'/backupload',
+      component:BackUpload
+    },
+    {
+      path:'/back',
+      component:Back
     }
   ]
 })

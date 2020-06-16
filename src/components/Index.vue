@@ -5,17 +5,17 @@
       <a>今日推荐</a>
     </div>
     <!-- 今日推荐列表 -->
-    <div class="recommand">
+    <div class="recommend">
       <ul>
-        <li v-for="item in recommandList" :key="item.id">
+        <li v-for="(recommend,index) in recommendList" :key="index">
           <div class="img">
-            <van-image :src="require(`./../assets/hand/${item.image}`)" />
+            <van-image :src="require(`./../assets/recommend/${recommend.image}`)" />
           </div>
-          <p>{{item.name}}</p>
-          <p>{{item.eName}}</p>
-          <p>{{item.desc}}</p>
+          <p>{{recommend.name}}</p>
+          <p>{{recommend.enName}}</p>
+          <p>{{recommend.description}}</p>
           <van-rate
-  v-model="item.value"
+  v-model="recommend.stars"
   :size="15"
   color="green"
   void-icon="star"
@@ -30,29 +30,35 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
       // 今日推荐数据
-      recommandList: [
-        {
-          image: "hand2.jpg",
-          name: "孤儿",
-          eName: "orphan",
-          desc: "这是亚索",
-          value:3
-        },
-        { image: "hand5.jpg", name: "佐伊", eName: "zuoyi", desc: "这是佐伊",value:4},
-        { image: "hand8.jpg", name: "鱼仔", eName: "fishman", desc: "这是鱼人",value:5},
-        {
-          image: "hand9.jpg",
-          name: "大头",
-          eName: "bighead",
-          desc: "这是德莱文",
-          value:3
-        }
-      ],
+      recommendList:[]
     };
+  },
+  created(){
+    // 获取今日推荐数据
+    this.getRecommend() 
+  },
+  methods:{
+    // 获取今日推荐数据
+     getRecommend(){
+       axios.get("/mall/recommendList").then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.recommendList=res.result;
+                this.$message({
+                    duration:1000,
+                    message:"获取成功",
+                    type:'success'
+                })
+          }else{
+            this.$message.error("获取失败");
+          }
+       })
+     }
   }
 };
 </script>
@@ -68,14 +74,14 @@ export default {
   padding-left: 7px;
   line-height: 15px;
 }
-.recommand p{
+.recommend p{
  padding-left:20px;
 }
-.recommand ul {
+.recommend ul {
   display: flex;
   flex-wrap: wrap;
 }
-.recommand ul li {
+.recommend ul li {
   width: 50%;
   margin-left:5;
 }

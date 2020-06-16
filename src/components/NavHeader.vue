@@ -6,26 +6,64 @@
     <div class="block" />
 </van-overlay>
     <!-- 图片 -->
-    <van-image class="image" :src="require('./../assets/logo.png')" fit="contain"/>
+    <van-image class="image" :src="require(`../assets/logo.png`)" fit="contain"/>
         <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider1.jpg')" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider2.jpg')" />
-      </van-swipe-item>
-      <van-swipe-item>
-        <van-image width height="170" :src="require('./../assets/slider/slider3.jpg')" />
-      </van-swipe-item>
-    </van-swipe>
+       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+    <van-swipe-item v-for="(slider,index) in sliderList" :key="index">
+      <van-image height="170" :src="require(`../assets/slider/${slider.sliderImg}`)" />
+    </van-swipe-item>
+       </van-swipe>
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data(){
       return{
-        show:false
+        show:false,
+        logo:'',
+        sliderList:[],
+      }
+    },
+    mounted(){
+      //获取商标
+      this.getBrand();
+      this.getSlider();
+    },
+    methods:{
+      //获取商标
+      getBrand(){
+        axios.get("/mall/brand").then(response=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.logo=res.result;
+                this.$message({
+                    duration:1000,
+                    message:"获取成功",
+                    type:'success'
+                })
+          }else{
+            this.$message.error("获取失败");
+            
+          }
+        })
+      },
+      //获取轮播图
+      getSlider(){
+        axios.get("/mall/slider").then(response=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.sliderList=res.result;
+                this.$message({
+                    duration:1000,
+                    message:"获取成功",
+                    type:'success'
+                })
+          }else{
+            this.$message.error("获取失败");
+            
+          }
+        })
       }
     }
 }
