@@ -11,6 +11,10 @@ import Product from '@/components/Product'
 import BackLogin from '@/components/BackLogin'
 import Back from '@/components/Back'
 import BackUpload from '@/components/BackUpload'
+import BackIndex from '@/components/BackIndex'
+import BackMenu from '@/components/BackMenu'
+import BackAbout from '@/components/BackAbout'
+import BackContact from '@/components/BackContact'
 
 Vue.use(Router)
 
@@ -50,7 +54,23 @@ export default new Router({
     },
     {
       path:'/back',
-      component:Back
+      component:Back,
+      redirect:'/backindex',
+      children:[
+        {
+          path:'/backindex',
+          component:BackIndex
+        },{
+          path:'/backabout',
+          component:BackAbout
+        },{
+          path:'/backcontact',
+          component:BackContact
+        },{
+          path:'/backmenu',
+          component:BackMenu
+        }
+      ]
     }
   ]
 })

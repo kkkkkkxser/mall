@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <!-- 头部 -->
-   <el-header height="113px">
+   <el-header height="113Px">
         <!-- 头部图标 -->
         <div class="head">
           <a href="javascript:avoid(0)" class="head-image">
@@ -12,13 +12,13 @@
           <a href="javascript:avoid(0)" >后台管理系统</a>
         </div>
         <div class="exit">
-          <el-button type="info" style="width:120px;height:50px;" @click="toBack">退出</el-button>
+          <el-button type="info" style="width:120Px;height:50Px;" @click="toBack">退出</el-button>
         </div>
       </el-header>
   </el-container>
       <el-container>
     <!-- 侧边栏 -->
-    <el-aside width="200px">
+    <el-aside width="200Px">
       <el-menu
       default-active="1"
       class="el-menu-vertical-demo"
@@ -27,23 +27,23 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="1" @click="toIndex">
+      <el-menu-item index="1" @click="toIndex" height="40Px">
         <template slot="title">
           <i class="el-icon-house"></i>
-          <span>首页</span>
+          <span>首页信息</span>
         </template>
       </el-menu-item>
       <el-menu-item index="2" @click="toUser">
         <i class="el-icon-user"></i>
-        <span slot="title">用户信息</span>
+        <span slot="title">关于我们</span>
       </el-menu-item>
       <el-menu-item index="3" @click="toGoods">
         <i class="el-icon-goods"></i>
-        <span slot="title">商品信息</span>
+        <span slot="title">菜单信息</span>
       </el-menu-item>
-       <el-menu-item index="4">
+       <el-menu-item index="4" @click="others">
         <i class="el-icon-document"></i>
-        <span slot="title">其他</span>
+        <span slot="title">地址信息</span>
       </el-menu-item>
     </el-menu>
     </el-aside>
@@ -74,11 +74,14 @@ export default {
       },
       // 用户
       toUser(){
-        this.$router.push('/backuser')
+        this.$router.push('/backabout')
       },
       // 商品
       toGoods(){
-        this.$router.push('/backgoods')
+        this.$router.push('/backmenu')
+      },
+      others(){
+        this.$router.push('/backcontact')
       },
       toBack(){
         this.$router.push('/backLogin')
@@ -101,37 +104,37 @@ export default {
 }
 .head {
   position: absolute;
-  top:30px;
-  left:50px;
+  top:30Px;
+  left:50Px;
 }
 .text{
-  margin-left:350px;
-  margin-top:29px;
+  margin-left:350Px;
+  margin-top:29Px;
 }
 .text a{
   color:white;
   font-weight: bold;
-  font-size:34px;
+  font-size:34Px;
 }
 .exit{
   float:right;
-  margin-top:-40px;
-  margin-right:20px;
+  margin-top:-40Px;
+  margin-right:20Px;
 }
 .head-image{
     display:block;
-    width: 297px;
-    height: 39px;
+    width: 297Px;
+    height: 39Px;
     z-index: 99;
     background:url(./../assets/logo.png);
-    background-position: -2px -147px;
+    background-position: -2Px -147Px;
 }
 /* 侧边栏 */
 .el-aside{
-  height:665px;
+  height:665Px;
   background-color:#545C64;
 }
 .el-menu-item{
-  width:200px !important;
+  width:200Px !important;
 }
 </style>

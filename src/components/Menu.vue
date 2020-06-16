@@ -6,7 +6,7 @@
       <!-- 商品栏 -->
     <div class="detail">
         <ul>
-            <li v-for="(detail,index) in menu.detailList" :key="index">
+            <li v-for="(detail,index) in menu.detailList" :key="index" @click="toDetail(detail.name)">
             <div class="img">
             <a>{{detail.name}}</a>
             <!-- <van-image round fit="cover" :src="require(`./../assets/${detail.image}`)" @click="toDetail(detail.image)" />   -->
@@ -33,7 +33,7 @@ export default {
   },
     methods:{
         toDetail(image){
-            this.$router.push('/product'+image)
+            this.$router.push('/product/'+image)
         },
         // 获取菜单
      getMenu(){

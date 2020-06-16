@@ -79,8 +79,8 @@ export default {
       //初始化地图
       var map = new AMap.Map("container", {
         zoom: 14, //缩放级别
-        center: this.center //设置地图中心点
-        //resizeEnable: true,  //地图初始化加载定位到当前城市
+        center: this.center, //设置地图中心点
+        resizeEnable: true,  //地图初始化加载定位到当前城市
       });
       //获取初始中心点并赋值
       var currentCenter = map.getCenter(); //此方法是获取当前地图的中心点

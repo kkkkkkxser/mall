@@ -30,7 +30,9 @@ handleAvatarSuccess (res, file) {
   if (res.status === '0') {
       console.log("5护")
     this.$message.success(res.msg)
-    this.imageUrl = res.result.data
+    console.log(res)
+    this.imageUrl = 'http://47.102.204.180/two.jpg'
+    console.log(this.imageUrl)
   } else {
       console.log("44")
     this.$message.error(res.msg)

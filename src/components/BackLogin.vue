@@ -83,22 +83,22 @@ export default {
 </script>
 <style scoped>
 .container {
-  height:722px;
+  height:722Px;
   background-color:#545C64;
 }
 .login_box {
-  width: 600px;
-  height: 380px;
+  width: 600Px;
+  height: 380Px;
   background-color: rgba(255, 255, 255, 0.4);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 5%;
-  border:1px grey solid;
+  border:1Px grey solid;
 }
 .login_pic {
-  width: 200px;
+  width: 200Px;
   height: 100%;
   float: left;
   display: flex;
@@ -106,26 +106,26 @@ export default {
   justify-content: center;
 }
 .login_pic img{
-   width: 200px;
-  height: 200px;
-  margin-left:20px;
-  margin-top:-10px;
+   width: 200Px;
+  height: 200Px;
+  margin-left:20Px;
+  margin-top:-10Px;
 }
 .other {
-  width: 400px;
+  width: 400Px;
   height: 100%;
   float: left;
 }
 .loginForm {
-  width: 300px;
-  margin-top: 70px;
-  margin-left: 30px;
+  width: 300Px;
+  margin-top: 70Px;
+  margin-left: 30Px;
 }
 .button1 {
-  margin-left: 60px;
-  margin-top: 20px;
+  margin-left: 60Px;
+  margin-top: 20Px;
 }
 .button2 {
-  margin-left: 60px !important;
+  margin-left: 60Px !important;
 }
 </style>

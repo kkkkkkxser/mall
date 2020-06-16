@@ -28,6 +28,7 @@ export default {
     mounted(){
       //获取商标
       this.getBrand();
+      //获取轮播图
       this.getSlider();
     },
     methods:{
