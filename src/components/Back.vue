@@ -45,6 +45,10 @@
         <i class="el-icon-document"></i>
         <span slot="title">地址信息</span>
       </el-menu-item>
+        <el-menu-item index="5" @click="myP">
+        <i class="el-icon-document"></i>
+        <span slot="title">我的图库</span>
+      </el-menu-item>
     </el-menu>
     </el-aside>
   
@@ -85,6 +89,9 @@ export default {
       },
       toBack(){
         this.$router.push('/backLogin')
+      },
+      myP(){
+        this.$router.push('/backpic')
       }
   }
 }

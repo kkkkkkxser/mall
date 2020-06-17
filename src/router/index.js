@@ -15,6 +15,7 @@ import BackIndex from '@/components/BackIndex'
 import BackMenu from '@/components/BackMenu'
 import BackAbout from '@/components/BackAbout'
 import BackContact from '@/components/BackContact'
+import BackPic from '@/components/BackPic'
 
 Vue.use(Router)
 
@@ -69,6 +70,9 @@ export default new Router({
         },{
           path:'/backmenu',
           component:BackMenu
+        },{
+          path:'/backpic',
+          component:BackPic
         }
       ]
     }

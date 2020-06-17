@@ -11,6 +11,7 @@
             <el-button slot="append" icon="el-icon-search" @click="searchG"></el-button>
           </el-input>
            <el-button type="primary" @click="addG">添加</el-button>
+           <!-- <el-button type="primary" @click="test">try</el-button> -->
    </div>
    <!-- 用户信息列表 -->
        <el-table
@@ -151,6 +152,16 @@ export default {
       this.getSlider()
     },
     methods:{
+      // test(){
+      //   axios.get("/mall/test").then(response=>{
+      //     let res = response.data;
+      //     if(res.status=="0"){
+      //       this.$message.success("成功")
+      //     }else{
+      //       this.$message.error("失败")
+      //     }
+      //   })
+      // },
       //获取轮播图
       getSlider(){
         axios.get("/mall/slider").then(response=>{

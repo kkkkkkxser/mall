@@ -19,6 +19,9 @@ module.exports = {
       },
       '/mall/*':{
         target:'http://localhost:3000',
+      },
+      '/getImg':{
+        target:'http://localhost:3000'
       }
     },
 
