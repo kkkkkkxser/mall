@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
         this.getFileList(path).forEach((item) => {
             var ms = image(fs.readFileSync(item.path+item.filename));
             var tmp = item.path;
-            tmp = tmp.replace("D://mall/src/assets/","")
+            tmp = tmp.replace("D://mall/src/assets/slider/","")
             ms.mimeType && (imageList.push(tmp+item.filename))
         });
         res.json({
@@ -47,9 +47,8 @@ router.get('/', function(req, res, next) {
 
     }
 };
-var myP=require("path").resolve("./src/assets/")
-console.log(myP)
-   getFiles.getImageFiles("D://mall/src/assets/");
+
+   getFiles.getImageFiles("D://mall/src/assets/slider/");
 //getFiles.getFileList("./public/images/");
 });
     

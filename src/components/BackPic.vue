@@ -1,9 +1,20 @@
 <template>
     <div>{{myP}}
+    <!-- 图片上传 -->
+      <el-upload
+  action="/upload/sliderupload"
+  list-type="picture-card"
+  :on-preview="handlePictureCardPreview"
+  :on-remove="handleRemove">
+  <i class="el-icon-plus"></i>
+</el-upload>
+<el-dialog :visible.sync="dialogVisible">
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog>
       <div>
         <ul>
           <li v-for="(pic,index) in myP" :key="index">
-            <img :src="require(`../assets/${pic}`)" alt=""/>
+            <img :src="require(`../assets/slider/${pic}`)" alt=""/>
           </li>
         </ul>
       </div>
@@ -14,7 +25,10 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            myP:[]
+            myP:[],
+            // 图片上传
+        dialogImageUrl: '',
+        dialogVisible: false
         }
     },
      // 获取图片库
@@ -37,10 +51,16 @@ export default {
             this.$message.error("获取失败");
           }
        })
-     }
+     },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
   }
 }
 </script>
 <style scoped>
-
 </style>

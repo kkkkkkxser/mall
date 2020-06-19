@@ -8,7 +8,11 @@ var mallSchema = new Schema({
     "userId":String,
     "brand":String,
     "sliderList":[
-        {"sliderImg" : String}
+        // {   sliderId:{type:Schema.Types.ObjectId, ref:"SliderId",sliderImg:String }  }
+        {
+            "slider":String,
+            "sliderImg":String
+        }
     ],
     "recommendList":[{
         "name":String,
@@ -38,26 +42,27 @@ var mallSchema = new Schema({
         // }]
     }],   
 });
-var CounterSchema = Schema({
-    _id: {type: String, required: true},
-    seq: { type: Number, default: 0 }
-   });
-   var counter = mongoose.model('counter', CounterSchema);
-   
-    
-   
-   var entitySchema = mongoose.Schema({
-    testvalue: {type: String}
-   });
-   
-   entitySchema.pre('save', function(next) {
-    var doc = this;
-    counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter) {
-    if(error)
-    return next(error);
-    doc.testvalue = counter.seq;
-    next();
-    });
-   });
+// 自增try first
+// var CounterSchema = Schema({
+//     _id: {type: String, required: true},
+//     seq: { type: Number, default: 0 }
+// });
+// var counter = mongoose.model('counter', CounterSchema);
+
+// mallSchema.pre('save', function (next) {
+//     let doc = this;
+//     counter.findByIdAndUpdate({ _id:sliderList._Id  }, { $inc: { seq: 1 } }, { new: true, upsert: true }, function (error, counter) {
+//         if (error)
+//             return next(error);
+//         doc.sliderId = counter.seq;
+//         next();
+//     });
+// });
+
+autoIncrement = require('mongoose-auto-increment');
+ 
+var connection = mongoose.createConnection("mongodb://127.0.0.1:27017/mall");
+ 
+autoIncrement.initialize(connection);
    
 module.exports = mongoose.model("Mall",mallSchema,"mall")

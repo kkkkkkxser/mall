@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var mongoose = require('mongoose')
 var Mall = require('../models/mall')
+const mall = require('../models/mall')
 
 // 连接数据库
 mongoose.connect('mongodb://127.0.0.1:27017/mall')
@@ -32,14 +33,12 @@ router.post('/login',function(req,res,next){
                   })
             }
             else{          
-              res.cookie("userId",doc.userId,{path:'/',maxAge:1000*60*60});
+              res.cookie("userId",doc._id,{path:'/',maxAge:1000*60*60});
               // req.session.user = doc;
               res.json({
                 status:'0',
                 msg:'成功',
-                result:{
-                  userName:doc.username
-                }
+                result:doc
               });
             }
           })
@@ -48,7 +47,8 @@ router.post('/login',function(req,res,next){
 //获取轮播图
 router.get('/slider',function(req,res,next){
     var userId = req.cookies.userId;
-    Mall.findOne({userId:userId},function(err,doc){
+    console.log(userId)
+    Mall.findById({_id:userId},function(err,doc){
       if(err){
         res.json({
           status:'1',
@@ -68,7 +68,7 @@ router.get('/slider',function(req,res,next){
 //获取商标
 router.get('/brand',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     console.log(doc)
     if(err){
       res.json({
@@ -89,7 +89,7 @@ router.get('/brand',function(req,res,next){
 //获取今日推荐
 router.get('/recommendList',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     console.log(doc)
     if(err){
       res.json({
@@ -110,7 +110,7 @@ router.get('/recommendList',function(req,res,next){
 //获取关于我们的图片
 router.get('/aboutus',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     if(err){
       res.json({
         status:'1',
@@ -130,7 +130,7 @@ router.get('/aboutus',function(req,res,next){
 //获取菜单
 router.get('/menuList',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     if(err){
       res.json({
         status:'1',
@@ -150,7 +150,7 @@ router.get('/menuList',function(req,res,next){
 //获取地址信息
 router.get('/contact',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     if(err){
       res.json({
         status:'1',
@@ -171,7 +171,7 @@ router.get('/contact',function(req,res,next){
 //获取地址信息
 router.get('/',function(req,res,next){
   var userId = req.cookies.userId;
-  Mall.findOne({userId:userId},function(err,doc){
+  Mall.findById({_id:userId},function(err,doc){
     if(err){
       res.json({
         status:'1',
@@ -188,50 +188,6 @@ router.get('/',function(req,res,next){
     }
   })
 })
-//获取当前图库
-// router.get('/getPicLib',function(req,res,next){
-//   var fs = require('fs');
-// var image = require("imageinfo"); 
-//   function readFileList(path, filesList) {
-//     var files = fs.readdirSync(path);
-//     files.forEach(function (itm, index) {
-//         var stat = fs.statSync(path + itm);
-//         if (stat.isDirectory()) {
-//         //递归读取文件
-//             readFileList(path + itm + "/", filesList)
-//         } else {
-
-//             var obj = {};//定义一个对象存放文件的路径和名字
-//             obj.path = path;//路径
-//             obj.filename = itm//名字
-//             filesList.push(obj);
-//         }
-
-//     })
-
-// }
-// var getFiles = {
-//   getFileList: function (path) {
-//       var filesList = [];
-//       readFileList(path, filesList);
-//       return filesList;
-//   },
-//   getImageFiles: function (path) {
-//       var imageList = [];
-
-//       this.getFileList(path).forEach((item) => {
-//           var ms = image(fs.readFileSync(item.path + item.filename));
-
-//           ms.mimeType && (imageList.push(item.path +item.filename))
-//       });
-//       res.send(imageList);
-//       return imageList;
-
-//   }
-// };
-//  getFiles.getImageFiles("F:/images/");
-//getFiles.getFileList("./public/images/");
-// })
 // router.get('/test',function(req,res,next){
 //   Mall.save(function(err,doc){
 //     if(err1){
@@ -249,4 +205,78 @@ router.get('/',function(req,res,next){
 //   }
 //   })
 // })
+// 添加轮播图
+router.post('/addslider',function(req,res,next){
+  var userId=req.cookies.userId;
+  var slider=req.body.slider;
+  var sliderImg = req.body.sliderImg;
+  var sliderList={slider,sliderImg};
+  console.log(sliderList)
+  Mall.findById({_id:userId},function(err,result){
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.message
+      })
+    }else{
+      result.sliderList.push(sliderList);
+      result.save(function(err1,doc){
+        if(err1){
+          res.json({
+            status:'1',
+            msg:err.message
+          })
+        }else{
+          res.json({
+            status:'0',
+            msg:'',
+            result:'success'
+          })
+        }
+      })
+    }
+  })
+})
+// 修改轮播图图片
+//获取当前轮播图
+router.get("/nowslider",function(req,res,next){
+  sliderId = req.param("slider");
+  var userId=req.cookies.userId;
+  Mall.find({'sliderList':sliderId},function(err,doc){
+    if(err){
+            res.json({
+              status:"1",
+              msg:err.message,
+              result:''
+            })
+          }else{
+                res.json({
+                  status:"0",
+                  msg:'?/??',
+                  result:doc
+                })
+              }
+  })
+})
+// 删除轮播图图片
+router.post("/deleteslider",function(req,res,next){
+  var userId=req.cookies.userId;
+  var sliderId = req.body.sliderId;
+  Mall.update({_id:userId},{$pull:{'sliderList':{'_id':sliderId}}},function(err,doc){
+    if(err){
+      res.json({
+        status:"1",
+        msg:err.message,
+        result:''
+      });
+    }else{
+      console.log("waimina")
+      res.json({
+        status:"0",
+        msg:'',
+        result:'suc'
+      });
+    }
+  })
+})
 module.exports =router;

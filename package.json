@@ -21,6 +21,7 @@
     "imageinfo": "^1.0.4",
     "lib-flexible": "^0.3.2",
     "mongoose": "^5.9.18",
+    "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.9.1",
     "postcss-px2rem-exclude": "0.0.6",
     "silly-datetime": "^0.1.2",
