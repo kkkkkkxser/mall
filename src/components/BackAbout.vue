@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
-          <el-button type="primary" @click="changeSlider(scope.row._id)">修改</el-button>
+          <el-button type="primary" @click="changeSlider(scope.row.slider)">修改</el-button>
           <el-button type="danger" @click="deleteSlider(scope.row._id)">删除</el-button>
         </template>
       </el-table-column>
@@ -36,6 +36,10 @@
         <el-form-item label="图片" :label-width="formLabelWidth">
           <el-input v-model="add.sliderImg" autocomplete="off"></el-input>
         </el-form-item>
+              <el-select v-model="add.sliderImg" placeholder="请选择商品种类" style="padding-left:20px; width:280px" >
+        <el-option v-for="item in myP" :key="item"  :label="item" :value="item"></el-option>
+      </el-select>
+      <img v-if="this.add.sliderImg" v-lazy="require(`./../assets/slider/${this.add.sliderImg}`)" style="width:300Px;height:100Px;" alt="">
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addSVisible = false">取 消</el-button>
@@ -77,21 +81,43 @@ export default {
       // 信息列表
       tableData: [],
       //添加
-      add: [],
+      add: {},
       addSVisible: false,
       // 修改
       changeVisible: false,
       // 删除
       deleteVisible: false,
       // 当前信息
-      now: [],
-      formLabelWidth: "120Px"
+      now: {},
+      formLabelWidth: "120Px",
+      // 图片库
+      myP:[],
+      tmpS:""
     };
   },
   mounted(){
-      this.getSlider()
+    // 获取轮播图
+      this.getSlider();
+      // 获取图片库
+      this.getPic()
   },
   methods: {
+     //   获取有关我们的图片
+     getPic(){
+       axios.get("/getImg").then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.myP=res.result;
+                this.$message({
+                    duration:1000,
+                    message:"获取成功",
+                    type:'success'
+                })
+          }else{
+            this.$message.error("获取失败");
+          }
+       })
+     },
     //获取轮播图
       getSlider(){
         axios.get("/mall/slider").then(response=>{
@@ -130,11 +156,64 @@ export default {
           }
       })
     },
+    //获取当前的信息
+    getNow(slider){
+    axios.get('/mall/nowslider',{params:{slider:slider}}).then((response=>{
+      let res=response.data;
+        if(res.status=="0"){
+          this.now=res.result[0].sliderList[0];
+          this.tmpS=res.result[0].sliderList[0].slider;
+          this.$message.success("获取成功");
+          console.log(this.now)
+        }else {
+            this.$message.error("获取失败!");
+          }
+    }))
+    },
     // 修改
-    changeSlider() {
+    changeSlider(slider) {
+        this.getNow(slider);
+        console.log(this.now)
         this.changeVisible=true;
     },
-    changeS() {},
+    changeS() {
+      axios.post('/mall/changeslider',{
+        slider:this.now.slider,
+        sliderImg:this.now.sliderImg,
+        nslider:this.tmpS
+      }).then((response)=>{
+        let res=response.data;
+        if(res.status=="0"){
+          this.$message.success("修改成功");
+          this.changeVisible=false;
+          this.getSlider();
+        }else {
+            this.$message.error("修改失败!");
+          }
+      })
+      // var change = this.now._id;
+      // axios.post("/mall/deleteslider",{
+      //   sliderId:change
+      // }).then(response=>{
+      //   let res = response.data;
+      //   if(res.status=="0"){
+      //   }else {
+      //     }
+      // });
+      // axios.post("/mall/addslider",{
+      //   slider:this.now.slider,
+      //   sliderImg:this.now.sliderImg
+      // }).then(response=>{
+      //   let res = response.data;
+      //   if(res.status=="0"){
+      //     this.$message.success("修改成功");
+      //     this.changeVisible=false;
+      //     this.getSlider()
+      //   }else {
+      //       this.$message.error("修改失败!");
+      //     }
+      // })
+    },
     // 删除
     handleClose(done) {
       this.$confirm("确认关闭？")

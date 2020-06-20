@@ -21,48 +21,35 @@
       <el-table-column prop="Instagram" label="Ins" width></el-table-column>
       <el-table-column prop="Facebook" label="Facebook" width></el-table-column>
       <el-table-column label="操作" width="150">
-        <template slot-scope="scope">
-          <el-button type="primary" @click="changeSlider(scope.row._id)">修改</el-button>
-        </template>
+          <el-button type="primary" @click="changeSlider()">修改</el-button>
       </el-table-column>
     </el-table>
-    <!-- 添加 -->
-    <el-dialog title="添加轮播图" :visible.sync="addSVisible">
-      <el-form :model="add">
-        <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="add.slider" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="add.sliderImg" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addSVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addS">确 定</el-button>
-      </div>
-    </el-dialog>
     <!-- 修改框 -->
     <el-dialog title="修改商品信息" :visible.sync="changeVisible">
       <el-form :model="now">
-        <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="now.slider" autocomplete="off"></el-input>
+        <el-form-item label="名字" :label-width="formLabelWidth">
+          <el-input v-model="now.companyName" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="now.sliderImg" autocomplete="off"></el-input>
+        <el-form-item label="地址" :label-width="formLabelWidth">
+          <el-input v-model="now.companyAddress" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="电话" :label-width="formLabelWidth">
+          <el-input v-model="now.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" :label-width="formLabelWidth">
+          <el-input v-model="now.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Ins" :label-width="formLabelWidth">
+          <el-input v-model="now.Instagram" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="Facebook" :label-width="formLabelWidth">
+          <el-input v-model="now.Facebook" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="changeVisible = false">取 消</el-button>
         <el-button type="primary" @click="changeS()">确 定</el-button>
       </div>
-    </el-dialog>
-    <!-- 确认删除 -->
-    <el-dialog title="提示" :visible.sync="deleteVisible" width="30%" :before-close="handleClose">
-      <span>您确定要删除这个商品吗</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="deleteVisible = false">取 消</el-button>
-        <el-button type="danger" @click="deleteS">确 定</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -77,14 +64,14 @@ export default {
       // 信息列表
       tableData: [],
       //添加
-      add: [],
+      add: {},
       addSVisible: false,
       // 修改
       changeVisible: false,
       // 删除
       deleteVisible: false,
       // 当前信息
-      now: [],
+      now: {},
       formLabelWidth: "120Px"
         }
     },
@@ -99,6 +86,9 @@ export default {
           let res = response.data;
           if(res.status=="0"){
             this.tableData=res.result;
+            this.now=res.result[0];
+            console.log(this.now)
+            console.log(this.tableData)
                 this.$message({
                     duration:1000,
                     message:"获取成功",
@@ -115,8 +105,33 @@ export default {
     addSlider() {},
     addS() {},
     // 修改
-    changeSlider() {},
-    changeS() {},
+    changeSlider() {
+      this.changeVisible=true;
+    },
+    changeS() {
+      axios.post('/mall/changecontact',{
+        companyName:this.now.companyName,
+        companyAddress:this.now.companyAddress,
+        phone:this.now.phone,
+        email:this.now.email,
+        Instagram:this.now.Instagram,
+        Facebook:this.now.Facebook,
+        ncompanyName:this.tableData
+      }).then((response)=>{
+        let res = response.data;
+          if(res.status=="0"){
+                this.$message({
+                    duration:1000,
+                    message:"修改成功",
+                    type:'success'
+                })
+                this.changeVisible=false;
+                this.getContact();
+          }else{
+            this.$message.error("修改失败");
+          }
+      })
+    },
     // 删除
     handleClose(done) {
       this.$confirm("确认关闭？")

@@ -238,13 +238,177 @@ router.post('/addslider',function(req,res,next){
   })
 })
 // 修改轮播图图片
+router.post("/changeslider",function(req,res,next){
+  var slider =req.body.slider;
+  // var sliderN = req.body.slidername;
+  var sliderImg = req.body.sliderImg;
+  var nslider = req.body.nslider;
+  console.log(slider);
+  console.log(sliderImg);
+  Mall.updateOne({'sliderList.slider':nslider},{"sliderList.$.slider":slider,"sliderList.$.sliderImage":sliderImg},function(err,doc){
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.message,
+        result:''
+      })
+    }else{
+      res.json({
+        status:'0',
+        msg:'',
+        result:doc
+      })
+    }
+  })
+})
+// 修改联系我们信息
+router.post("/changecontact",function(req,res,next){
+  var companyName = req.body.companyName;
+  var companyAddress= req.body.companyAddress;
+  var phone = req.body.phone;
+  var email = req.body.email;
+  var Instagram = req.body.Instagram;
+  var Facebook =req.body.Facebook;
+  var ncompanyName = req.body.ncompanyName;
+  console.log(ncompanyName)
+  Mall.updateOne({"contact.companyName":ncompanyName},{"companyName":companyName,"companyAddress":companyAddress,"phone":phone,"email":email,"Instagram":Instagram,"Facebook":Facebook},function(err,doc){
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.message,
+        result:''
+      })
+    }else{
+      res.json({
+        status:'0',
+        msg:'',
+        result:doc
+      })
+    }
+  })
+})
+// 修改推荐信息
+router.post("/changerecommend",function(req,res,next){
+  var name = req.body.name;
+  var enName= req.body.enName;
+  var image = req.body.image;
+  var description = req.body.description;
+  var stars = req.body.stars;
+  var nname = req.body.nname
+  Mall.updateOne({'recommendList.name':nname},{"recommendList.$.name":name,"recommendList.$.enName":enName,"recommendList.$.image":image,"recommendList.$.description":description,"recommendList.$.stars":stars},function(err,doc){
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.message,
+        result:''
+      })
+    }else{
+      res.json({
+        status:'0',
+        msg:'',
+        result:doc
+      })
+    }
+  })
+})
+// 删除推荐信息
+router.post("/deleterecommend",function(req,res,next){
+  var userId=req.cookies.userId;
+  var recId = req.body.recId;
+  Mall.update({_id:userId},{$pull:{'sliderList':{'_id':recId}}},function(err,doc){
+    if(err){
+      res.json({
+        status:"1",
+        msg:err.message,
+        result:''
+      });
+    }else{
+      console.log("waimina")
+      res.json({
+        status:"0",
+        msg:'',
+        result:'suc'
+      });
+    }
+  })
+})
+// 添加推荐信息
+router.post('/addrecommend',function(req,res,next){
+  var userId=req.cookies.userId;
+  var name = req.body.name;
+  var enName= req.body.enName;
+  var image = req.body.image;
+  var description = req.body.description;
+  var stars = req.body.stars;
+  var recommendList = {name,enName,image,description,stars}
+  Mall.findById({_id:userId},function(err,result){
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.message
+      })
+    }else{
+      result.recommendList.push(recommendList);
+      result.save(function(err1,doc){
+        if(err1){
+          res.json({
+            status:'1',
+            msg:err.message
+          })
+        }else{
+          res.json({
+            status:'0',
+            msg:'',
+            result:'success'
+          })
+        }
+      })
+    }
+  })
+})
+// 修改菜单信息
+// 删除菜单信息
+// 添加菜单信息
+//深度搜索
+// function DF(data,key,value){
+//       var result = [];
+//       function deepFind(data,key,value){
+//           if(data instanceof Array){
+//               for(var i in data){
+//                   deepFind(data[i],key,value);
+//               }
+//           }else if(data instanceof Object){
+//               for(var name in data){
+//                   if(name == key && data[name] == value){
+//                       result.push(data);
+//                   }else{
+//                       deepFind(data[name],key,value);
+//                   }
+//               }
+//           }
+//       }
+//       deepFind(data,key,value);
+//       return result;
+//   }
+
+// router.get("/nowslider",function(req,res,next){
+//   Mall.find({},function(err,doc){
+//   if(err) throw err;
+//   else{
+//   res.json({
+//     status:'0',
+//     msg:'',
+//     result:DF(doc,"_id","5eec718aceb46d02e4a37e5a")
+//   })
+// }
+// })
+// })
 //获取当前轮播图
 router.get("/nowslider",function(req,res,next){
-  sliderId = req.param("slider");
-  var userId=req.cookies.userId;
-  Mall.find({'sliderList':sliderId},function(err,doc){
-    if(err){
-            res.json({
+  slider = req.param("slider");
+    Mall.find({'sliderList.slider':slider},{'sliderList.$':1},function(err,doc){
+              if(err){
+      res.json({
               status:"1",
               msg:err.message,
               result:''
@@ -252,7 +416,7 @@ router.get("/nowslider",function(req,res,next){
           }else{
                 res.json({
                   status:"0",
-                  msg:'?/??',
+                  msg:'',
                   result:doc
                 })
               }

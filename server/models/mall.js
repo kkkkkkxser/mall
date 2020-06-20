@@ -3,10 +3,6 @@ var Schema = mongoose.Schema;
 
 //定义数据
 var mallSchema = new Schema({
-    "username":String,
-    "password":String,
-    "userId":String,
-    "brand":String,
     "sliderList":[
         // {   sliderId:{type:Schema.Types.ObjectId, ref:"SliderId",sliderImg:String }  }
         {
@@ -14,6 +10,10 @@ var mallSchema = new Schema({
             "sliderImg":String
         }
     ],
+    "username":String,
+    "password":String,
+    "userId":String,
+    "brand":String,
     "recommendList":[{
         "name":String,
         "enName":String,
@@ -59,10 +59,9 @@ var mallSchema = new Schema({
 //     });
 // });
 
-autoIncrement = require('mongoose-auto-increment');
+// autoIncrement = require('mongoose-auto-increment');
  
-var connection = mongoose.createConnection("mongodb://127.0.0.1:27017/mall");
+// var connection = mongoose.createConnection("mongodb://127.0.0.1:27017/mall");
  
-autoIncrement.initialize(connection);
-   
+// autoIncrement.initialize(connection);   
 module.exports = mongoose.model("Mall",mallSchema,"mall")
