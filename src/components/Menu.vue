@@ -6,10 +6,10 @@
       <!-- 商品栏 -->
     <div class="detail">
         <ul>
-            <li v-for="(detail,index) in menu.detailList" :key="index" @click="toDetail(detail.name)">
+            <li v-for="(detail,index) in menu.detailList" :key="index">
             <div class="img">
-            <a>{{detail.name}}</a>
-            <!-- <van-image round fit="cover" :src="require(`./../assets/${detail.image}`)" @click="toDetail(detail.image)" />   -->
+            <!-- <a>{{detail.name}}</a> -->
+            <van-image round fit="cover" :src="require(`./../assets/${detail.type}/${detail.picture}`)" @click="toDetail(detail.image)" />  
             </div>
             </li>
         </ul>

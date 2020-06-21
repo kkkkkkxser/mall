@@ -16,6 +16,12 @@ import BackMenu from '@/components/BackMenu'
 import BackAbout from '@/components/BackAbout'
 import BackContact from '@/components/BackContact'
 import BackPic from '@/components/BackPic'
+import BackBento from '@/components/BackBento'
+import BackDaily from '@/components/BackDaily'
+import BackDessert from '@/components/BackDessert'
+import BackMilktea from '@/components/BackMilktea'
+import BackSnacks from '@/components/BackSnacks'
+import BackWebdesign from '@/components/BackWebdesign'
 
 Vue.use(Router)
 
@@ -73,6 +79,25 @@ export default new Router({
         },{
           path:'/backpic',
           component:BackPic
+        },
+        {
+          path:'/backbento',
+          component:BackBento
+        },{
+          path:'/backdailysupplies',
+          component:BackDaily
+        },{
+          path:'/backdessert',
+          component:BackDessert
+        },{
+          path:'/backmilkytea',
+          component:BackMilktea
+        },{
+          path:'/backsnacks',
+          component:BackSnacks
+        },{
+          path:'/backwebdesign',
+          component:BackWebdesign
         }
       ]
     }

@@ -18,6 +18,9 @@
           </li>
         </ul>
       </div>
+      <!-- <div class="demo-image__lazy">
+  <el-image v-for="pic in myP" :key="pic" :src="require(`../assets/slider/${pic}`)" lazy></el-image>
+</div> -->
     </div>
 </template>
 <script>

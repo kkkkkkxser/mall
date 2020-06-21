@@ -10,7 +10,7 @@
       <el-input placeholder="请输入内容" class="input" v-model="search" clearable>
         <el-button slot="append" icon="el-icon-search" @click="searchS"></el-button>
       </el-input>
-      <el-button type="primary" @click="addSlider">添加</el-button>
+      <el-button type="primary" @click="addrecommend()">添加</el-button>
     </div>
     <!-- 信息列表 -->
     <el-table :data="tableData">
@@ -25,23 +25,32 @@
         <el-table-column prop="stars" label="评价等级" width></el-table-column>
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
-          <el-button type="primary" @click="changeSlider(scope.row._id)">修改</el-button>
-          <el-button type="danger" @click="deleteSlider(scope.row._id)">删除</el-button>
+          <el-button type="primary" @click="changeRecommend(scope.row.name)">修改</el-button>
+          <el-button type="danger" @click="deleteRecommend(scope.row.name)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 添加 -->
-    <el-dialog title="添加轮播图" :visible.sync="addSVisible">
+    <el-dialog title="添加轮播图" :visible.sync="addRVisible">
       <el-form :model="add">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="add.slider" autocomplete="off"></el-input>
+          <el-input v-model="add.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="英文名" :label-width="formLabelWidth">
+          <el-input v-model="add.enName" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="add.sliderImg" autocomplete="off"></el-input>
+          <el-input v-model="add.image" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="描述" :label-width="formLabelWidth">
+          <el-input v-model="add.description" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="星级(1-5)" :label-width="formLabelWidth">
+          <el-input v-model="add.stars" autocomplete="off"></el-input>
+        </el-form-item>                        
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addSVisible = false">取 消</el-button>
+        <el-button @click="addRVisible = false">取 消</el-button>
         <el-button type="primary" @click="addS">确 定</el-button>
       </div>
     </el-dialog>
@@ -49,11 +58,20 @@
     <el-dialog title="修改商品信息" :visible.sync="changeVisible">
       <el-form :model="now">
         <el-form-item label="名称" :label-width="formLabelWidth">
-          <el-input v-model="now.slider" autocomplete="off"></el-input>
+          <el-input v-model="now.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="now.sliderImg" autocomplete="off"></el-input>
+          <el-input v-model="now.enName" autocomplete="off"></el-input>
         </el-form-item>
+         <el-form-item label="图片" :label-width="formLabelWidth">
+          <el-input v-model="now.image" autocomplete="off"></el-input>
+        </el-form-item>
+         <el-form-item label="图片" :label-width="formLabelWidth">
+          <el-input v-model="now.description" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="图片" :label-width="formLabelWidth">
+          <el-input v-model="now.stars" autocomplete="off"></el-input>
+        </el-form-item>                      
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="changeVisible = false">取 消</el-button>
@@ -80,28 +98,39 @@ export default {
       // 信息列表
       tableData: [],
       //添加
-      add: [],
-      addSVisible: false,
+      add: {},
+      addRVisible: false,
       // 修改
       changeVisible: false,
       // 删除
       deleteVisible: false,
       // 当前信息
-      now: [],
+      now: {},
       formLabelWidth: "120Px",
       // 今日推荐数据
       recommendList:[],
-      //获取轮播图
-        sliderList:[]
+      tmpS:''
     };
   },
   created(){
     // 获取今日推荐数据
-    this.getRecommend(),
-     //获取轮播图
-      this.getSlider();
+    this.getRecommend()
   },
   methods:{
+        //获取当前的信息
+    getNow(name){
+    axios.get('/mall/nowrecommend',{params:{name:name}}).then((response=>{
+      let res=response.data;
+        if(res.status=="0"){
+          this.now=res.result[0].recommendList[0];
+          this.tmpS=res.result[0].recommendList[0].name;
+          this.$message.success("获取成功");
+          console.log(this.now)
+        }else {
+            this.$message.error("获取失败!");
+          }
+    }))
+    },
     // 获取今日推荐数据
      getRecommend(){
        axios.get("/mall/recommendList").then((response)=>{
@@ -118,30 +147,35 @@ export default {
           }
        })
      },
-     //获取轮播图
-      getSlider(){
-        axios.get("/mall/slider").then(response=>{
-          let res = response.data;
-          if(res.status=="0"){
-            this.sliderList=res.result;
-                this.$message({
-                    duration:1000,
-                    message:"获取成功",
-                    type:'success'
-                })
-          }else{
-            this.$message.error("获取失败");
-            
-          }
-        })
-      },
           // 搜索
     searchS() {},
     // 添加
-    addSlider() {},
-    addS() {},
+    addrecommend() {
+      this.addRVisible=true;
+    },
+    addS() {
+      axios.post("/mall/addrecommend",{
+        name:this.add.name,
+        enName:this.add.enName,
+        image:this.add.image,
+        description:this.add.description,
+        stars:this.add.stars
+      }).then(response=>{
+        let res = response.data;
+        if(res.status=="0"){
+          this.$message.success("添加成功");
+          this.addRVisible=false;
+          this.getRecommend()
+        }else {
+            this.$message.error("添加失败!");
+          }
+      })
+    },
     // 修改
-    changeSlider() {},
+    changeRecommend(name) {
+      this.changeVisible=true;
+      this.getNow(name);
+    },
     changeS() {},
     // 删除
     handleClose(done) {
@@ -151,7 +185,20 @@ export default {
         })
         .catch(_ => {});
     },
-    deleteSlider() {},
+    deleteRecommend(name) {
+       axios.post("/mall/deleteRecommend",{
+        recname:name
+      }).then(response=>{
+        let res = response.data;
+        if(res.status=="0"){
+          this.$message.success("删除成功");
+          this.deleteVisible=false;
+          this.getRecommend()
+        }else {
+            this.$message.error("删除失败!");
+          }
+      })
+    },
     deleteS() {}
   }
 };

@@ -90,7 +90,6 @@ router.get('/brand',function(req,res,next){
 router.get('/recommendList',function(req,res,next){
   var userId = req.cookies.userId;
   Mall.findById({_id:userId},function(err,doc){
-    console.log(doc)
     if(err){
       res.json({
         status:'1',
@@ -267,11 +266,11 @@ router.post("/changecontact",function(req,res,next){
   var companyAddress= req.body.companyAddress;
   var phone = req.body.phone;
   var email = req.body.email;
-  var Instagram = req.body.Instagram;
+  var Instagram = req.body.Instagram; 
   var Facebook =req.body.Facebook;
   var ncompanyName = req.body.ncompanyName;
   console.log(ncompanyName)
-  Mall.updateOne({"contact.companyName":ncompanyName},{"companyName":companyName,"companyAddress":companyAddress,"phone":phone,"email":email,"Instagram":Instagram,"Facebook":Facebook},function(err,doc){
+  Mall.updateOne({"contact.companyName":ncompanyName},{"contact.$.companyName":companyName,"contact.$.companyAddress":companyAddress,"contact.$.phone":phone,"contact.$.email":email,"contact.$.Instagram":Instagram,"contact.$.Facebook":Facebook},function(err,doc){
     if(err){
       res.json({
         status:'1',
@@ -314,8 +313,9 @@ router.post("/changerecommend",function(req,res,next){
 // 删除推荐信息
 router.post("/deleterecommend",function(req,res,next){
   var userId=req.cookies.userId;
-  var recId = req.body.recId;
-  Mall.update({_id:userId},{$pull:{'sliderList':{'_id':recId}}},function(err,doc){
+  var recname = req.body.recname;
+  console.log(recname)
+  Mall.update({_id:userId},{$pull:{'recommendList':{'name':recname}}},function(err,doc){
     if(err){
       res.json({
         status:"1",
@@ -323,13 +323,31 @@ router.post("/deleterecommend",function(req,res,next){
         result:''
       });
     }else{
-      console.log("waimina")
       res.json({
         status:"0",
         msg:'',
-        result:'suc'
+        result:doc
       });
     }
+  })
+})
+//获取当前推荐信息
+router.get("/nowrecommend",function(req,res,next){
+  recname = req.param("name");
+    Mall.find({'recommendList.name':recname},{'recommendList.$':1},function(err,doc){
+              if(err){
+      res.json({
+              status:"1",
+              msg:err.message,
+              result:''
+            })
+          }else{
+                res.json({
+                  status:"0",
+                  msg:'',
+                  result:doc
+                })
+              }
   })
 })
 // 添加推荐信息

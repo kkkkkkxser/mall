@@ -18,12 +18,13 @@ var mallSchema = new Schema({
         "name":String,
         "enName":String,
         "description":String,
-        "stars":Number
+        "stars":Number,
+        "image":String
     }],
     "aboutus":String,
     "contact":[{
-        "company-name":String,
-        "company-address":String,
+        "companyName":String,
+        "companyAddress":String,
         "phone":String,
         "email":String,
         "Instagram":String,

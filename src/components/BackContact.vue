@@ -86,7 +86,7 @@ export default {
           let res = response.data;
           if(res.status=="0"){
             this.tableData=res.result;
-            this.now=res.result[0];
+            this.now={...res.result[0]};
             console.log(this.now)
             console.log(this.tableData)
                 this.$message({
@@ -116,7 +116,7 @@ export default {
         email:this.now.email,
         Instagram:this.now.Instagram,
         Facebook:this.now.Facebook,
-        ncompanyName:this.tableData
+        ncompanyName:this.tableData[0].companyName
       }).then((response)=>{
         let res = response.data;
           if(res.status=="0"){
