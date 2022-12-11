@@ -15,7 +15,7 @@
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "element-ui": "^2.13.2",
-    "express": "~4.16.1",
+    "express": "~4.18.2",
     "formidable": "^1.2.2",
     "http-errors": "~1.6.3",
     "imageinfo": "^1.0.4",
